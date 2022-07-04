@@ -2,14 +2,8 @@ namespace Models
 {
     public class Department
     {
-        public int _id { get; set;}
-        public string _title {get;set;}
-
-        public Department(int id, string title)
-        {
-            this._id = id;
-            this._title = title;
-        }
+        public int id { get; set;}
+        public string title {get;set;}
 
         // public int getId(){ return this._id;}
         // public void setId(int id){ this._id = id;}
