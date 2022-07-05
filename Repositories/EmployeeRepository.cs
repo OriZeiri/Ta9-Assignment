@@ -12,6 +12,7 @@ namespace Ta9_Assignment.Repositories
         Task<Result.ResultCode> Create(int id, Employee emp);
         Task<Result.ResultCode> Update(int id, Employee emp);
         Task<Result.ResultCode> Delete(int id);
+        Task<Result.ResultCode> AssignToDepartment(int empId, int depId);
     }
 
     public class EmployeeRepository : IEmployeeRepository
@@ -59,8 +60,18 @@ namespace Ta9_Assignment.Repositories
         {
             await _client.Cypher.Match("(e:Employee)")
                                 .Where((Employee e) => e.id == id)
-                                .Delete("e")
+                                .DetachDelete("e")
                                 .ExecuteWithoutResultsAsync();
+            return Result.ResultCode.SUCSSES;
+        }
+
+        public async Task<Result.ResultCode> AssignToDepartment(int empId, int depId)
+        {
+            await _client.Cypher.Match("(d:Department), (e:Employee)")
+                                    .Where((Department d, Employee e) => d.id == depId && e.id == empId)
+                                    .Create("(d)-[r:hasEmployee]->(e)")
+                                    .ExecuteWithoutResultsAsync();
+
             return Result.ResultCode.SUCSSES;
         }
     }

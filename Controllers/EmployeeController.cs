@@ -47,5 +47,11 @@ namespace Ta9_Assignment.Controllers
         {
             return await _employeeRepository.Delete(id);
         }
+
+        [HttpGet("{empId}/assignemployee/{depId}/")]
+        public async Task<Result.ResultCode> AssignToDepartment(int empId, int depId)
+        {
+            return await _employeeRepository.AssignToDepartment(empId,depId);
+        }
     }
 }
