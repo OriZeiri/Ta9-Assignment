@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Ta9_Assignment.Models;
 using Ta9_Assignment.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Neo4jClient;
 
 namespace Ta9_Assignment.Controllers{
 

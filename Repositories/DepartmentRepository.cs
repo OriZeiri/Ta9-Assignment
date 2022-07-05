@@ -1,9 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Ta9_Assignment.Models;
 using Microsoft.AspNetCore.Mvc;
-
 using Neo4jClient;
 
 namespace Ta9_Assignment.Repositories 
@@ -34,10 +31,10 @@ namespace Ta9_Assignment.Repositories
 
         public async Task<Department> DepartmentById(int id)
         {
-            var departments = await _client.Cypher.Match("(d:Department)")
+            var department = await _client.Cypher.Match("(d:Department)")
                                                   .Where((Department d) => d.id == id)
                                                   .Return(d => d.As<Department>()).ResultsAsync;
-            return departments.LastOrDefault();
+            return department.LastOrDefault();
         }
 
         public async Task<Result.ResultCode> Create(int id, Department dep)
