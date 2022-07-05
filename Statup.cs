@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using Ta9_Assignment.Repositories;
 using Neo4jClient;
 
 namespace Ta9_Assignment
@@ -17,12 +18,20 @@ namespace Ta9_Assignment
         {
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddSwaggerGen(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ta9 Assignment", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo 
+                { Title = "Ta9 Assignment",
+                  Version = "v1",
+                  Description = "An ASP.Net Core WebAPI for managing Departments & Employees in an Organization"
+                });
             });
 
-            var client = new BoltGraphClient(new Uri("neo4j+s://c979ddd2.databases.neo4j.io"),"neo4j", "kdVgJkfCly0xr82fIwtH1-OC59skFNwFzMmKzKEnSig");
+            var config = this.Configuration.GetSection("NeO4jConnectionSettings");
+            var client = new BoltGraphClient(new Uri(config["ServerDB"]),config["User"],config["Password"]);
+            //var client = new BoltGraphClient(new Uri("neo4j+s://c979ddd2.databases.neo4j.io"),"neo4j", "kdVgJkfCly0xr82fIwtH1-OC59skFNwFzMmKzKEnSig");
             client.ConnectAsync();
             services.AddSingleton<IGraphClient>(client);
         }
@@ -34,7 +43,11 @@ namespace Ta9_Assignment
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ta9 /Assignment v1"));
+                app.UseSwaggerUI(options =>
+                {
+                    options.RoutePrefix = "";
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Ta9 /Assignment v1");
+                });
             }
 
             app.UseHttpsRedirection();
