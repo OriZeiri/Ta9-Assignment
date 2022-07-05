@@ -12,6 +12,7 @@ namespace Ta9_Assignment.Repositories
         Task<Result.ResultCode> Create(int id, Department dep);
         Task<Result.ResultCode> Update(int id, Department dep);
         Task<Result.ResultCode> Delete(int id);
+        Task<List<Employee>> AllEmployeesAtDepartment(int depId);
     }
 
     public class DepartmentRepository : IDepartmentRepository
@@ -24,7 +25,7 @@ namespace Ta9_Assignment.Repositories
 
         public async Task<List<Department>> AllDepartments()
         {
-             var departments = await _client.Cypher.Match("(n:Department)")
+            var departments = await _client.Cypher.Match("(n:Department)")
                                                   .Return(n => n.As<Department>()).ResultsAsync;
             return departments.ToList();
         }
@@ -59,9 +60,19 @@ namespace Ta9_Assignment.Repositories
         {
             await _client.Cypher.Match("(d:Department)")
                                 .Where((Department d) => d.id == id)
-                                .Delete("d")
+                                .DetachDelete("d")
                                 .ExecuteWithoutResultsAsync();
             return Result.ResultCode.SUCSSES;
+        }
+
+        public async Task<List<Employee>> AllEmployeesAtDepartment(int depId)
+        {
+            //MATCH (d:Department)-[r:hasEmployee]->(e:Employee) WHERE(d.id = 4) RETURN e
+            var Employee = await _client.Cypher.Match("(d:Department)-[r:hasEmployee]->(e:Employee)")
+                                          .Where((Department d) => d.id == depId)
+                                          .Return(e => e.As<Employee>()).ResultsAsync;
+            return Employee.ToList();
+            
         }
     }
 }
