@@ -2,68 +2,52 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Models;
+using Ta9_Assignment.Models;
+using Ta9_Assignment.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Neo4jClient;
 
-namespace Controllers{
+namespace Ta9_Assignment.Controllers{
 
     [ApiController]
     [Route("[controller]")]
     public class DepartmentController : ControllerBase 
     {
-        private readonly IGraphClient _client;
-        public DepartmentController(IGraphClient client)
+        private readonly IDepartmentRepository _departmentRepository;
+        public DepartmentController(IDepartmentRepository departmentRepository)
         {
-            this._client = client;
+            this._departmentRepository = departmentRepository;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<List<Department>> GetDepartments()
         {
-            var departments = await _client.Cypher.Match("(n:Department)")
-                                                  .Return(n => n.As<Department>()).ResultsAsync;
-            return Ok(departments);
+            return await _departmentRepository.AllDepartments();
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<Department> GetDepartmentById(int id)
         {
-            var departments = await _client.Cypher.Match("(d:Department)")
-                                                  .Where((Department d) => d.id == id)
-                                                  .Return(d => d.As<Department>()).ResultsAsync;
-            return Ok(departments.LastOrDefault());
+            return await _departmentRepository.DepartmentById(id);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(int id, [FromBody]Department dep)
+        public async Task<Result.ResultCode> Create(int id, [FromBody]Department dep)
         {
-            await _client.Cypher.Create("(d:Department $dep)")
-                                .WithParam("dep",dep)
-                                .ExecuteWithoutResultsAsync();
-            return Ok();
+            return await _departmentRepository.Create(id,dep);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody]Department dep)
+        public async Task<Result.ResultCode> Update(int id, [FromBody]Department dep)
         {
-            await _client.Cypher.Match("(d:Department)")
-                                .Where((Department d) => d.id == id)
-                                .Set("d = $dep")
-                                .WithParam("dep",dep)
-                                .ExecuteWithoutResultsAsync();
-            return Ok();
+             return await _departmentRepository.Update(id,dep);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<Result.ResultCode> Delete(int id)
         {
-            await _client.Cypher.Match("(d:Department)")
-                                .Where((Department d) => d.id == id)
-                                .Delete("d")
-                                .ExecuteWithoutResultsAsync();
-            return Ok();
+            return await _departmentRepository.Delete(id);
         }
     }
 }
