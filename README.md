@@ -8,7 +8,7 @@ Notice, you can select any data/data base.
 I Chose to represent an organization that has Departments & Employees. 
 You can make requests to manage them using the API.
 Add, Create, Update & Delete both Department & Employees,
-Also assign an employee to a department, using EmployeeController. Access to all the Employees who work at a specified department using DepartmentController.
+Also assign an employee to a department, using EmployeeController. Access to all Employees who work at a specified department using DepartmentController.
 
 # Tech Stack
 -   Application Type: .NET Core WebAPI
