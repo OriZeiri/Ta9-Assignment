@@ -16,7 +16,10 @@
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:8153;http://localhost:8200",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "NEO4J_URI" : "neo4j+s://c979ddd2.databases.neo4j.io",
+        "NEO4J_USERNAME" : "neo4j",
+        "NEO4J_PASSWORD" : "kdVgJkfCly0xr82fIwtH1-OC59skFNwFzMmKzKEnSig"
       }
     },
     "IIS Express": {

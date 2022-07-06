@@ -30,8 +30,13 @@ namespace Ta9_Assignment
             });
 
             var config = this.Configuration.GetSection("NeO4jConnectionSettings");
-            var client = new BoltGraphClient(new Uri(config["ServerDB"]),config["User"],config["Password"]);
-            //var client = new BoltGraphClient(new Uri("neo4j+s://c979ddd2.databases.neo4j.io"),"neo4j", "kdVgJkfCly0xr82fIwtH1-OC59skFNwFzMmKzKEnSig");
+            
+            var client = new BoltGraphClient(
+                Environment.GetEnvironmentVariable("NEO4J_URI") ?? "neo4j+s://c979ddd2.databases.neo4j.io",
+                Environment.GetEnvironmentVariable("NEO4J_USERNAME") ?? "neo4j",
+                Environment.GetEnvironmentVariable("NEO4J_PASSWORD") ?? "kdVgJkfCly0xr82fIwtH1-OC59skFNwFzMmKzKEnSig"
+                );
+                
             client.ConnectAsync();
             services.AddSingleton<IGraphClient>(client);
         }
