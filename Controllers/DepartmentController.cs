@@ -11,6 +11,8 @@ namespace Ta9_Assignment.Controllers{
     [Route("[controller]")]
     public class DepartmentController : ControllerBase 
     {
+        // create an instance of the IDepartmentRepository interface
+        // who execute the methods from  DepartmentRepository class -> services.AddScoped on Startup.cs
         private readonly IDepartmentRepository _departmentRepository;
         public DepartmentController(IDepartmentRepository departmentRepository)
         {
@@ -46,10 +48,10 @@ namespace Ta9_Assignment.Controllers{
         {
             return await _departmentRepository.Delete(id);
         }
-        [HttpGet("{id}/employees")]
-        public async Task<List<Employee>> AllEmployeesAtDepartment(int id)
+        [HttpGet("{depId}/employees")]
+        public async Task<List<Employee>> AllEmployeesAtDepartment(int depId)
         {
-            return await _departmentRepository.AllEmployeesAtDepartment(id);
+            return await _departmentRepository.AllEmployeesAtDepartment(depId);
         }
     }
 }

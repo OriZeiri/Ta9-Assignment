@@ -11,6 +11,8 @@ namespace Ta9_Assignment.Controllers
     [Route("[controller]")]
     public class EmployeeController : ControllerBase
     {
+        // create an instance of the IEmployeeRepository interface
+        // who execute the methods from EmployeeRepository class -> services.AddScoped on Startup.cs
         private readonly IEmployeeRepository _employeeRepository;
         
         public EmployeeController(IEmployeeRepository employeeRepository)
@@ -48,7 +50,7 @@ namespace Ta9_Assignment.Controllers
             return await _employeeRepository.Delete(id);
         }
 
-        [HttpGet("{empId}/assignemployee/{depId}/")]
+        [HttpPost("{empId}/assign-employee/{depId}/")]
         public async Task<Result.ResultCode> AssignToDepartment(int empId, int depId)
         {
             return await _employeeRepository.AssignToDepartment(empId,depId);

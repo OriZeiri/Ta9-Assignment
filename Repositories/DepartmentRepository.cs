@@ -7,14 +7,26 @@ namespace Ta9_Assignment.Repositories
 {
     public interface IDepartmentRepository
     {
+        // get - all Department from DB
         Task<List<Department>> AllDepartments();
+
+        // get - Department by id 
         Task<Department> DepartmentById(int id);
+
+        // post - add new Department to db from body content
         Task<Result.ResultCode> Create(int id, Department dep);
+
+        // put - update Department to db from body content
         Task<Result.ResultCode> Update(int id, Department dep);
+
+        // delete - Department by id
         Task<Result.ResultCode> Delete(int id);
+
+        // get - all Employees who works at Department {depId}
         Task<List<Employee>> AllEmployeesAtDepartment(int depId);
     }
 
+    // Implement IDepartmentRepository methods
     public class DepartmentRepository : IDepartmentRepository
     {
         private readonly IGraphClient _client;
@@ -64,7 +76,7 @@ namespace Ta9_Assignment.Repositories
                                 .ExecuteWithoutResultsAsync();
             return Result.ResultCode.SUCSSES;
         }
-
+        
         public async Task<List<Employee>> AllEmployeesAtDepartment(int depId)
         {
             //MATCH (d:Department)-[r:hasEmployee]->(e:Employee) WHERE(d.id = 4) RETURN e
