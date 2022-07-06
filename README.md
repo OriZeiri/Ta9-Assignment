@@ -1,12 +1,14 @@
 # Ta9-Assignment - Organization Managment 
 
 this is an excrices given by Ta9
+
 Create a microservice that manage graph items as nodes and edges (objects and relationships) and allows query requests
 Notice, you can select any data/data base.
 
-I Chose to represent an organization that have Departments & Employees. you can make requests to manage them using the API.  Add, Create, Update & Delete both Department & Employees.
-
-You can assign an employee to depratment, using  EmployeeController. Acsses to all the Employees who works at specified department using DepartmentController.
+I Chose to represent an organization that has Departments & Employees. 
+You can make requests to manage them using the API.
+Add, Create, Update & Delete both Department & Employees,
+Also assign an employee to a department, using EmployeeController. Access to all the Employees who work at a specified department using DepartmentController.
 
 # Tech Stack
 -   Application Type: .NET Core WebAPI
@@ -18,10 +20,10 @@ You can assign an employee to depratment, using  EmployeeController. Acsses to a
 -   Database: Online Neo4j-Server 4.x with multi-database [Browser](https://browser.neo4j.io/) 
 
 # Endpoints
- In additon to the basic action of the models, there methods who make the relations to the DB.
+ In addition to the basic action of the models, there are more methods who make the relations between the nodes.
 
     
-    // Create a realation in DB, now {depId} has employee {empId} 
+    // Create a relation in DB, now {depId} has employee {empId} 
         curl http://BASE_URL/Employees/{empId}/assignemployee/{depId}
     
     // JSON object for all the Employees who works for a Department 
@@ -54,7 +56,7 @@ Happy Hacking!
 
 # Configuration options
 
-NOTE: These are preferably configured via `./appsettings.json`.
+NOTE: These are preferably configured via `./Properties/launchSettings.json`.
 |Environment variable name  | Default value (or N/A) |
 |--|--|
 | SERVER_DB_URI | neo4j+s://c979ddd2.databases.neo4j.io |
