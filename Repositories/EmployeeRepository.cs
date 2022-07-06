@@ -69,6 +69,7 @@ namespace Ta9_Assignment.Repositories
             return Result.ResultCode.SUCSSES;
         }
 
+        // remove node & relation using DETACH DELETE
         public async Task<Result.ResultCode> Delete(int id)
         {
             await _client.Cypher.Match("(e:Employee)")
